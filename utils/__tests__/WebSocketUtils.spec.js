@@ -1,6 +1,6 @@
 var expect = require("chai").expect;
 var chai = require('chai')
-var WebSocketUtils = require("./WebSocketUtils");
+var WebSocketUtils = require("../WebSocketUtils");
 var sinon = require("sinon");
 var assert = require("assert")
 const sinonChai = require('sinon-chai');
@@ -26,14 +26,12 @@ const socket = {
         this.dataMap[id]();
 },
     emit : function(id, response){
-        console.log('test')
         return response;
     }
 };
 
 describe("testing WebSocketUtils", function(){
     it("should call the function from the required file", function(done){
-        // var stub = sinon.stub(socket);
         var model = {
             methodName : function(userData, data){
                 var response = {
@@ -97,12 +95,6 @@ describe("testing function model[methodName]", function(){
             });
             done();
         });
-
-        // spy().then((Newresponse) => {
-        //     console.log('Response: ', Newresponse);
-        //     expect(Newresponse).to.equal(response)
-            
-        // });
 
         spy.restore();
 });
