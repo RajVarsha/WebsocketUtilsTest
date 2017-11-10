@@ -98,12 +98,6 @@ describe("testing function model[methodName]", function(){
             done();
         });
 
-        // spy().then((Newresponse) => {
-        //     console.log('Response: ', Newresponse);
-        //     expect(Newresponse).to.equal(response)
-            
-        // });
-
         spy.restore();
 });
 
