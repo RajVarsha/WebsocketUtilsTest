@@ -1,16 +1,16 @@
-var expect = require("chai").expect;
-var chai = require('chai')
-var WebSocketUtils = require("../WebSocketUtils");
-var sinon = require("sinon");
-var assert = require("assert")
+const expect = require("chai").expect;
+const chai = require('chai');
+const WebSocketUtils = require("../WebSocketUtils");
+const sinon = require("sinon");
+const assert = require("assert");
 const sinonChai = require('sinon-chai');
 
 chai.use(sinonChai);
 
 
-var initialize = WebSocketUtils.initialize;
-var id = 'api:syncActivities';
-var data = "inputData";
+let initialize = WebSocketUtils.initialize;
+let id = 'api:syncActivities';
+let data = "inputData";
 
 const socket = {
     request : {
@@ -32,9 +32,9 @@ const socket = {
 
 describe("testing WebSocketUtils", function(){
     it("should call the function from the required file", function(done){
-        var model = {
+        let model = {
             methodName : function(userData, data){
-                var response = {
+                let response = {
                     success: true,
                     data: "responseData",
                     responseTime: 100,
@@ -44,7 +44,7 @@ describe("testing WebSocketUtils", function(){
             }
         };
         
-        var spy = sinon.spy(WebSocketUtils, "initialize");
+        let spy = sinon.spy(WebSocketUtils, "initialize");
         WebSocketUtils.initialize(socket, id, model, model.methodName());
         spy.restore();
         done();
@@ -53,12 +53,12 @@ describe("testing WebSocketUtils", function(){
 
 describe("testing function socket.on", function(){
     it("socket.on should have been called once", function(done){
-        var model = {
+        let model = {
             methodName : function(userData, data){
             }
         };
         
-        var spy = sinon.spy(socket, "on");
+        let spy = sinon.spy(socket, "on");
         WebSocketUtils.initialize(socket, id, model, "methodName");
         assert(spy.called);
         spy.restore();
@@ -67,20 +67,20 @@ describe("testing function socket.on", function(){
 });
 
 describe("testing function model[methodName]", function(){
-        var response = {
+        let response = {
             success: true,
             data: "responseData",
             responseTime: 100,
             status : {code : 200} 
         };
-        var ActivityModel = {
+        let ActivityModel = {
             syncActivities :  function(userData, data) {
                 return new Promise((resolve, reject) => {
                     resolve(response);
                 })
             }
         }
-        var spy = sinon.spy(ActivityModel, "syncActivities");
+        let spy = sinon.spy(ActivityModel, "syncActivities");
         WebSocketUtils.initialize(socket, 'api:syncActivities', ActivityModel, 'syncActivities');
         socket.triggerOn('api:syncActivities')
        
@@ -100,20 +100,20 @@ describe("testing function model[methodName]", function(){
 });
 
 describe("testing if the socket emits the data", function(){
-        var response = {
+        let response = {
             success: true,
             data: "responseData",
             responseTime: 100,
             status : {code : 200} 
         };
-        var ActivtiyModel = {
+        let ActivtiyModel = {
             syncActivities : function(userData, data){
                 return new Promise((resolve) => {
                     resolve(response);
                 });
             }
         };
-        var spy = sinon.spy(socket, "emit");
+        let spy = sinon.spy(socket, "emit");
         WebSocketUtils.initialize(socket, 'api:syncActivities', ActivtiyModel, 'syncActivities');
         socket.triggerOn('api:syncActivities')
 
@@ -132,14 +132,14 @@ describe("testing if the socket emits the data", function(){
 });
 
 describe("testing if the socket fails to emit data", function(){
-    var error = {
+    let error = {
         success: false,
         data: "responseData",
         responseTime: 100,
         status : {code : 500} 
     };
 
-        var ActivityModel = {
+        let ActivityModel = {
             syncActivities : function(userData, data){
                 return new Promise((reject) => {
                     reject(error);
@@ -147,7 +147,7 @@ describe("testing if the socket fails to emit data", function(){
             }
         };
 
-        var spy = sinon.spy(socket, "emit");
+        let spy = sinon.spy(socket, "emit");
         WebSocketUtils.initialize(socket, 'api:syncActivities', ActivityModel, 'syncActivities');
         socket.triggerOn('api:syncActivities')
 
@@ -162,7 +162,7 @@ describe("testing if the socket fails to emit data", function(){
 describe("testing the case user logged out case", function(){
         
         
-        var loggedOut = {
+        let loggedOut = {
             success: false,
             data: false,
             responseTime: 0,
@@ -172,7 +172,7 @@ describe("testing the case user logged out case", function(){
         };
     
 
-        var ActivityModel = {
+        let ActivityModel = {
             syncActivities : function(userData, data){
                 return new Promise((reject) => {
                     reject(error);
@@ -180,7 +180,7 @@ describe("testing the case user logged out case", function(){
             }
         };
 
-        var spy = sinon.spy(socket, "emit");
+        let spy = sinon.spy(socket, "emit");
         WebSocketUtils.initialize(socket, 'api:syncActivities', ActivityModel, 'syncActivities');
         socket.triggerOn('api:syncActivities')
 
